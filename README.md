@@ -7,6 +7,12 @@
 
 A high-performance Rust library for Monte Carlo simulation of Stochastic Differential Equations (SDEs) for quantitative finance applications, including option pricing and risk management.
 
+## Performance Advantages
+
+![Rust Advantages](rust_legitimate_advantages.png)
+
+*Rust excels in scalability, algorithmic complexity, memory efficiency, and production reliability - the areas that matter most for quantitative finance.*
+
 ## Project Structure
 
 ```
