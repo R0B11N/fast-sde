@@ -1,0 +1,29 @@
+# Rust build artifacts
+/target/
+Cargo.lock
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Output files
+/results/
+*.csv
+benchmark_results_*.csv
+
+# Temporary files
+*.tmp
+*.temp
+
+# Documentation build
+/docs/
+
+# Local configuration
+.env
+.env.local
