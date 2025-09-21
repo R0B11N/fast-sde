@@ -1,1 +1,0 @@
-window.SIDEBAR_ITEMS = {"fn":["write_paths_to_csv","write_summary_to_csv"]};
