@@ -15,7 +15,7 @@ jobs:
     outputs:
       upload_url: ${{ steps.create_release.outputs.upload_url }}
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     
     - name: Get version from tag
       id: get_version
@@ -52,7 +52,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: create-release
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: dtolnay/rust-toolchain@stable
     
     - name: Publish to crates.io
@@ -63,7 +63,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: publish-crates-io
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - uses: dtolnay/rust-toolchain@stable
     
     - name: Build documentation
