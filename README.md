@@ -49,19 +49,23 @@ fast-sde/
 
 ### Euler–Maruyama Scheme
 
-For a generic SDE \(dX_t = a(X_t, t) dt + b(X_t, t) dW_t\), the Euler–Maruyama scheme is given by:
+For a generic SDE `dX_t = a(X_t, t) dt + b(X_t, t) dW_t`, the Euler–Maruyama scheme is given by:
 
-\[X_{n+1} = X_n + a(X_n, t_n) \Delta t + b(X_n, t_n) \Delta W_n\]
+```
+X_{n+1} = X_n + a(X_n, t_n) Δt + b(X_n, t_n) ΔW_n
+```
 
-where \(\Delta W_n \sim N(0, \Delta t)\).
+where `ΔW_n ~ N(0, Δt)`.
 
 ### Milstein Scheme
 
 For a scalar SDE, the Milstein scheme provides higher accuracy:
 
-\[X_{n+1} = X_n + a \Delta t + b \Delta W + \frac{1}{2} b b' ((\Delta W)^2 - \Delta t)\]
+```
+X_{n+1} = X_n + a Δt + b ΔW + ½ b b' ((ΔW)² - Δt)
+```
 
-where \(b' = \frac{\partial}{\partial x} b(x, t)\).
+where `b' = ∂b/∂x` is the derivative of the diffusion coefficient.
 
 ### Stochastic Runge–Kutta (SRK) Scheme
 
@@ -73,7 +77,9 @@ A simple Heun-like strong order 1.0 SRK variant is implemented (details in `src/
 
 SDE:
 
-\[dS_t = \mu S_t dt + \sigma S_t dW_t\]
+```
+dS_t = μ S_t dt + σ S_t dW_t
+```
 
 The exact solution is used for stepping where possible.
 
@@ -81,16 +87,19 @@ The exact solution is used for stepping where possible.
 
 SDE System:
 
-\[\begin{cases}
-dS_t = \mu S_t dt + \sqrt{V_t} S_t dW_t^{(1)} \\
-dV_t = \kappa (\theta - V_t) dt + \xi \sqrt{V_t} dW_t^{(2)}
-\end{cases}\]
+```
+dS_t = μ S_t dt + √V_t S_t dW_t^(1)
+dV_t = κ(θ - V_t) dt + ξ√V_t dW_t^(2)
+```
 
-with correlation \(\rho\) between \(dW_t^{(1)}\) and \(dW_t^{(2)}\). Full truncation Euler is used for \(V_t\).
+with correlation `ρ` between `dW_t^(1)` and `dW_t^(2)`. Multiple discretization schemes available:
+- **Andersen QE** (default): Robust, handles Feller condition violations
+- **Alfonsi**: High-order weak convergence
+- **Full Truncation Euler**: Fast but potentially unstable
 
 ### SABR (Stochastic Alpha Beta Rho)
 
-Implemented for \(\beta=1\) (lognormal case).
+Implemented for `β=1` (lognormal case).
 
 ### Merton Jump-Diffusion
 
@@ -100,17 +109,26 @@ Combines GBM with Poisson jumps. Jump sizes are log-normally distributed.
 
 - **Generic MC Loop**: Parallelized paths using `rayon`.
 - **Payoff Functions**: European call/put are implemented.
-- **Variance Reduction**: Implemented using Antithetic Variates and Control Variates (for GBM). For the control variate, the optimal coefficient \(b\) is estimated as:
+- **Variance Reduction**: Implemented using Antithetic Variates and Control Variates (for GBM). For the control variate, the optimal coefficient `b` is estimated as:
 
-    \[b = \frac{\text{Cov}(Y, X)}{\text{Var}(X)}\]
+    ```
+    b = Cov(Y, X) / Var(X)
+    ```
 
-    where \(Y\) is the Monte Carlo estimator (payoff) and \(X\) is the control variate (e.g., terminal asset price with known expectation).
+    where `Y` is the Monte Carlo estimator (payoff) and `X` is the control variate (e.g., terminal asset price with known expectation).
 
 - **Deterministic Seeding**: Per-path and per-thread Random Number Generators (RNGs) are deterministically seeded (using `cfg.seed + i as u64`) to ensure reproducible benchmarks.
 
 ## Greeks
 
-- **Delta**: Implemented via the Pathwise Derivative method for European call options under Black-Scholes.
+Complete Greeks implementation for risk management:
+
+- **Delta**: Pathwise derivative method (`∂V/∂S`)
+- **Gamma**: Central finite difference on Delta (`∂²V/∂S²`)  
+- **Vega**: Pathwise derivative method (`∂V/∂σ`)
+- **Rho**: Pathwise derivative method (`∂V/∂r`)
+
+All Greeks support antithetic variates and common random numbers for variance reduction.
 
 ## Testing and Validation
 
@@ -118,19 +136,19 @@ All tests can be run from the `fast-sde` directory using `cargo test`.
 
 ### Black-Scholes Monte Carlo vs. Analytic Solution (`tests/integration_test.rs`)
 
-This test compares the Monte Carlo price of a European call option under the Black-Scholes model against its known analytical solution. It asserts that the relative error is less than `0.01` (1%). This test also includes an assertion that the variance reduction factor (VRF) achieved by the control variate is greater than `1.2`, demonstrating its effectiveness.
+This test compares the Monte Carlo price of a European call option under the Black-Scholes model against its known analytical solution. It asserts that the relative error is less than 1%. This test also validates that the variance reduction factor (VRF) achieved by the control variate is greater than 1.2, demonstrating its effectiveness.
 
 ### SDE Solver Weak Convergence (`tests/solver_convergence_test.rs`)
 
 These tests verify the weak convergence of the Euler-Maruyama, Milstein, and SRK schemes when applied to the Ornstein-Uhlenbeck (OU) process. For each solver, multiple simulations are run with decreasing step sizes. The tests assert that the absolute error (between the simulated mean and the exact mean of the OU process) generally decreases as the number of steps increases, and that the final absolute error falls below specific thresholds:
 
--   **Euler-Maruyama:** Final absolute error < `0.15`
--   **Milstein:** Final absolute error < `0.1`
--   **SRK:** Final absolute error < `0.05`
+-   **Euler-Maruyama:** Final absolute error < 0.15
+-   **Milstein:** Final absolute error < 0.1  
+-   **SRK:** Final absolute error < 0.05
 
 ### Greeks Delta (Pathwise) vs. Analytic Solution (`tests/greeks_test.rs`)
 
-This test validates the Monte Carlo Delta calculated using the pathwise derivative method for a European call option under Black-Scholes against the analytical Black-Scholes Delta. It asserts that the relative error is less than `0.01` (1%).
+This test validates the Monte Carlo Delta calculated using the pathwise derivative method for a European call option under Black-Scholes against the analytical Black-Scholes Delta. It asserts that the relative error is less than 1%.
 
 ### Nalgebra Dependency Warning
 
@@ -138,7 +156,7 @@ A warning regarding `nalgebra v0.27.1`'s future incompatibility with Rust is not
 
 ## Build and Run
 
-To build the project, navigate to the `fast-sde` directory and run:
+To build the project, head to the `fast-sde` directory and run:
 
 ```bash
 cargo build --release
@@ -178,12 +196,12 @@ To generate plots for convergence or path simulations, you can output data from 
 
 ## Future Enhancements (Still Building!)
 
--   **GPU Support**: Integration with CUDA (e.g., using `cust` or `accel` crates) for accelerated Monte Carlo simulations.
+-   **GPU Support**: Integration with CUDA for accelerated Monte Carlo simulations.
 -   **More Models**: Implement advanced models like Variance Gamma, local/stochastic volatility models.
 -   **Quasi-Monte Carlo**: Sobol sequences with Brownian bridge for improved convergence.
 -   **Exotic Options**: Support for American, Lookback, Rainbow options.
--   **GUI/Visualization**: A simple graphical user interface for interactive simulations and visualizations.
--   **Python Bindings**: PyO3 integration for seamless Python workflow integration.
+-   **GUI/Visualization**: A GUI for interactive simulations and visualizations.
+-   **Python Bindings**: PyO3 integration for Python workflow integration.
 -   **Model Generality**: Ensure all models are fully integrated with the generic solver interface.
 -   **Advanced Greeks**: Cross-Greeks (Vanna, Volga) and likelihood ratio methods.
 
