@@ -1,13 +1,13 @@
 [package]
 name = "fast-sde"
 version = "0.1.0"
-edition = "2021"
-authors = ["fast-sde contributors"]
+edition = "2025"
+authors = ["R0B11N"]
 description = "High-performance Monte Carlo simulation for stochastic differential equations in quantitative finance"
 documentation = "https://docs.rs/fast-sde"
 readme = "README.md"
-homepage = "https://github.com/yourusername/fast-sde"
-repository = "https://github.com/yourusername/fast-sde"
+homepage = "https://github.com/R0B11N/fast-sde"
+repository = "https://github.com/R0B11N/fast-sde"
 license = "MIT OR Apache-2.0"
 keywords = ["monte-carlo", "sde", "finance", "options", "quantitative"]
 categories = ["mathematics", "science", "simulation"]

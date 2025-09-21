@@ -79,7 +79,7 @@ impl Heston {
         let feller = 2.0 * params.kappa * params.theta;
         if feller <= params.xi * params.xi {
             if !suppress_warnings {
-                eprintln!("Warning: Feller condition violated (2κθ ≤ ξ²). Variance may hit zero.");
+                eprintln!("WARNING!: Feller condition violated (2κθ ≤ ξ²). Variance may hit zero.");
             }
             // For strict validation, uncomment the next line:
             // return Err(SdeError::FellerConditionViolation { kappa: params.kappa, theta: params.theta, xi: params.xi, feller_value: feller });
