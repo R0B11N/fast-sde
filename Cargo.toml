@@ -1,7 +1,7 @@
 [package]
 name = "fast-sde"
 version = "0.1.0"
-edition = "2025"
+edition = "2021"
 authors = ["R0B11N"]
 description = "High-performance Monte Carlo simulation for stochastic differential equations in quantitative finance"
 documentation = "https://docs.rs/fast-sde"
