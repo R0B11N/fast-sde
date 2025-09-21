@@ -1,0 +1,14 @@
+C:\Users\lenovo\Downloads\SDEOptions\fast-sde\target\release\deps\serde-463cd59b241c7a14.d: C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\lib.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\integer128.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\mod.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\de.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\ser.rs C:\Users\lenovo\Downloads\SDEOptions\fast-sde\target\release\build\serde-fdf65873105062c8\out/private.rs
+
+C:\Users\lenovo\Downloads\SDEOptions\fast-sde\target\release\deps\libserde-463cd59b241c7a14.rlib: C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\lib.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\integer128.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\mod.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\de.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\ser.rs C:\Users\lenovo\Downloads\SDEOptions\fast-sde\target\release\build\serde-fdf65873105062c8\out/private.rs
+
+C:\Users\lenovo\Downloads\SDEOptions\fast-sde\target\release\deps\libserde-463cd59b241c7a14.rmeta: C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\lib.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\integer128.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\mod.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\de.rs C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\ser.rs C:\Users\lenovo\Downloads\SDEOptions\fast-sde\target\release\build\serde-fdf65873105062c8\out/private.rs
+
+C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\lib.rs:
+C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\integer128.rs:
+C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\mod.rs:
+C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\de.rs:
+C:\Users\lenovo\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\serde-1.0.226\src\private\ser.rs:
+C:\Users\lenovo\Downloads\SDEOptions\fast-sde\target\release\build\serde-fdf65873105062c8\out/private.rs:
+
+# env-dep:OUT_DIR=C:\\Users\\lenovo\\Downloads\\SDEOptions\\fast-sde\\target\\release\\build\\serde-fdf65873105062c8\\out

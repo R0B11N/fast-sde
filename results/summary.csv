@@ -1,0 +1,17 @@
+metric,value
+mc_price_european,8.42208363040351
+analytic_price_european,8.433318690109608
+abs_error_price_european,0.011235059706098838
+rel_error_price_european,0.0013322228317157092
+price_time_ms_european,508.93690000000004
+mc_delta_european,0.5597795293279657
+analytic_delta_european,0.5596176923702425
+abs_error_delta_european,0.00016183695772320483
+rel_error_delta_european,0.0002891919964820084
+delta_time_ms_european,7.7288
+mc_price_asian,4.806431246171076
+price_time_ms_asian,432.64799999999997
+mc_price_barrier_call,1.2705988625675195
+price_time_ms_barrier_call,379.6752
+mc_price_barrier_put,7.262567971746962
+price_time_ms_barrier_put,383.6332

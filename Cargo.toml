@@ -1,0 +1,47 @@
+[package]
+name = "fast-sde"
+version = "0.1.0"
+edition = "2021"
+authors = ["fast-sde contributors"]
+description = "High-performance Monte Carlo simulation for stochastic differential equations in quantitative finance"
+documentation = "https://docs.rs/fast-sde"
+readme = "README.md"
+homepage = "https://github.com/yourusername/fast-sde"
+repository = "https://github.com/yourusername/fast-sde"
+license = "MIT OR Apache-2.0"
+keywords = ["monte-carlo", "sde", "finance", "options", "quantitative"]
+categories = ["mathematics", "science", "simulation"]
+exclude = [
+    "target/",
+    "results/",
+    "bench/",
+    "*.csv",
+]
+rust-version = "1.70"
+
+[dependencies]
+rand = "0.8"
+rand_distr = "0.4"
+rayon = "1.5"
+ndarray = {"version" = "0.15", "features" = ["blas", "rayon"]}
+statrs = "0.15"
+nalgebra = "0.27"
+bitflags = "2.4"
+num_cpus = "1.16"
+chrono = { version = "0.4", features = ["serde"] }
+
+[[example]]
+name = "demo"
+path = "examples/demo.rs"
+
+[[example]]
+name = "heston_calibration"
+path = "examples/heston_calibration.rs"
+
+[[example]]
+name = "error_handling_demo"
+path = "examples/error_handling_demo.rs"
+
+[[bin]]
+name = "benchmark"
+path = "scripts/benchmark.rs"
