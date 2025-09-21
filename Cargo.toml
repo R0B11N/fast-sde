@@ -20,7 +20,7 @@ exclude = [
 rust-version = "1.70"
 
 [dependencies]
-rand = "0.8"
+rand = "0.9"
 rand_distr = "0.4"
 rayon = "1.5"
 ndarray = {"version" = "0.15", "features" = ["blas", "rayon"]}
