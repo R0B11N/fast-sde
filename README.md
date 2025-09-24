@@ -1,4 +1,4 @@
-# fast-sde
+# fast-sde: A Stochastic Calculus Library in Rust
 
 [![Crates.io](https://img.shields.io/crates/v/fast-sde.svg)](https://crates.io/crates/fast-sde)
 [![Documentation](https://docs.rs/fast-sde/badge.svg)](https://docs.rs/fast-sde)
