@@ -1,0 +1,114 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Outfit:wght@400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: 255 255 255;
+    --color-surface: 248 250 252;
+    --color-border: 226 232 240;
+    --color-text: 15 23 42;
+    --color-text-muted: 100 116 139;
+    --color-brand: 15 61 122;
+    --color-brand-light: 238 246 252;
+  }
+  .dark {
+    --color-bg: 12 16 28;
+    --color-surface: 22 28 42;
+    --color-border: 45 55 80;
+    --color-text: 241 245 250;
+    --color-text-muted: 148 163 184;
+    --color-brand: 147 197 253;
+    --color-brand-light: 30 58 138;
+  }
+  html {
+    @apply antialiased;
+  }
+  body {
+    @apply text-[rgb(var(--color-text))] font-sans transition-colors duration-300;
+  }
+}
+
+@layer components {
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
+  }
+  /* Light: soft blue tint, gradient mesh, subtle dot texture */
+  .bg-app {
+    background-color: #f4f6fa;
+  }
+  .bg-app-light {
+    background:
+      radial-gradient(ellipse 120% 80% at 50% -20%, rgb(238 246 252 / 0.95), transparent 50%),
+      radial-gradient(ellipse 80% 50% at 100% 50%, rgb(219 234 254 / 0.5), transparent 45%),
+      radial-gradient(ellipse 60% 40% at 0% 100%, rgb(226 232 250 / 0.6), transparent 40%),
+      linear-gradient(180deg, #fafbfd 0%, #f5f7fb 30%, #eef2f8 65%, #e8ecf4 100%);
+  }
+  .bg-app-light::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: radial-gradient(circle at 1px 1px, rgb(148 163 184 / 0.06) 1px, transparent 0);
+    background-size: 24px 24px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  /* Dark: deep navy base, subtle blue glow, premium feel */
+  .dark .bg-app {
+    background-color: #0a0e17;
+  }
+  .dark .bg-app-light {
+    background:
+      radial-gradient(ellipse 100% 60% at 50% -10%, rgb(30 58 138 / 0.25), transparent 45%),
+      radial-gradient(ellipse 80% 40% at 100% 0%, rgb(30 64 175 / 0.12), transparent 40%),
+      radial-gradient(ellipse 60% 50% at 0% 100%, rgb(51 65 85 / 0.2), transparent 45%),
+      linear-gradient(180deg, #0c1222 0%, #0f172a 30%, #131c2e 60%, #0f172a 100%);
+  }
+  .glass {
+    @apply backdrop-blur-xl border;
+  }
+  .glass {
+    background-color: rgb(255 255 255 / 0.85);
+    border-color: rgb(226 232 240 / 0.6);
+  }
+  .dark .glass {
+    background-color: rgb(22 28 42 / 0.85);
+    border-color: rgb(45 55 80 / 0.6);
+  }
+  .glass-card {
+    @apply backdrop-blur-sm shadow-soft;
+  }
+  .glass-card {
+    background-color: rgb(255 255 255 / 0.92);
+    border: 1px solid rgb(226 232 240 / 0.7);
+  }
+  .dark .glass-card {
+    background-color: rgb(30 36 52 / 0.92);
+    border-color: rgb(45 55 80 / 0.5);
+  }
+}
+
+/* Safe area for notched devices */
+@supports (padding: env(safe-area-inset-bottom)) {
+  .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+  .safe-top { padding-top: env(safe-area-inset-top); }
+}
+
+/* Print: hide nav/header so Save as PDF only captures content */
+@media print {
+  .no-print,
+  header,
+  aside,
+  .touch-target[aria-label="Toggle menu"],
+  .touch-target[aria-label="Close menu"],
+  .fixed {
+    display: none !important;
+  }
+  main {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  body { background: #fff; }
+}

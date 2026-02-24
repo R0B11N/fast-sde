@@ -7,32 +7,62 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum Role {
-  viewer
-  editor
-  admin
-  owner
-}
-
 model User {
   id           String    @id @default(uuid())
   email        String    @unique
-  name         String
   passwordHash String
-  role         Role      @default(viewer)
-  active       Boolean   @default(true)
+  firstName    String
+  lastName     String
+  role         String    @default("user")
+  isActive     Boolean   @default(true)
   createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
-  sessions     Session[]
+  lastLogin    DateTime?
+
+  refreshTokens RefreshToken[]
+  loginAttempts LoginAttempt[]
+  documents     Document[]
 }
 
-model Session {
+model RefreshToken {
   id        String   @id @default(uuid())
-  userId    String
   token     String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt DateTime
   createdAt DateTime @default(now())
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revoked   Boolean  @default(false)
 
+  @@index([token])
   @@index([userId])
+}
+
+model LoginAttempt {
+  id          String   @id @default(uuid())
+  email       String
+  ipAddress   String
+  success     Boolean
+  attemptedAt DateTime @default(now())
+  userId      String?
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  @@index([email, attemptedAt])
+}
+
+model Document {
+  id            String   @id @default(uuid())
+  filename      String
+  originalName  String
+  mimeType      String
+  sizeBytes     Int
+  filePath      String
+  uploadedById  String
+  uploadedBy    User     @relation(fields: [uploadedById], references: [id], onDelete: Cascade)
+  uploadedAt    DateTime @default(now())
+  status        String   @default("uploaded")
+  extractedText String?
+  docType       String   @default("other")
+
+  @@index([uploadedById])
+  @@index([status])
+  @@index([docType])
 }

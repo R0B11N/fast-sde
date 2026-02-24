@@ -1,0 +1,124 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-typecheck:
+    name: Lint & Typecheck
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: maxim-backend
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Cache node_modules
+        uses: actions/cache@v4
+        id: npm-cache
+        with:
+          path: maxim-backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('maxim-backend/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        if: steps.npm-cache.outputs.cache-hit != 'true'
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Run TypeScript Check
+        run: npx tsc --noEmit
+
+  build:
+    name: Build Project
+    needs: lint-and-typecheck
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: maxim-backend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Restore node_modules Cache
+        uses: actions/cache@v4
+        with:
+          path: maxim-backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('maxim-backend/package-lock.json') }}
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-folder
+          path: maxim-backend/dist/
+          retention-days: 1
+
+  staging-db-push:
+    name: Push Schema to Staging
+    needs: build
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
+    runs-on: ubuntu-latest
+    environment: staging
+    defaults:
+      run:
+        working-directory: maxim-backend
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node 18
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Restore node_modules Cache
+        uses: actions/cache@v4
+        with:
+          path: maxim-backend/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('maxim-backend/package-lock.json') }}
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Generate Prisma Client
+        run: npx prisma generate
+
+      - name: Push Schema to Staging DB
+        run: npx prisma db push --skip-generate
+        env:
+          DATABASE_URL: ${{ secrets.STAGING_DATABASE_URL }}
